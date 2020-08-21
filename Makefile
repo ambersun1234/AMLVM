@@ -3,9 +3,10 @@ MOUNT_FOLDER=/app
 THIS_FILE := $(lastword $(MAKEFILE_LIST))
 
 create:
-	sudo docker run -it -d -p 3000:3000 --name $(CONTAINER_NAME) -v $(shell pwd):$(MOUNT_FOLDER) secondstate/ssvm-nodejs-starter:v1
+	sudo docker run -it -d -p 3000:3000 -p 8080:8080 --name $(CONTAINER_NAME) -v $(shell pwd):$(MOUNT_FOLDER) secondstate/ssvm-nodejs-starter:v1
 
 start:
+	sudo service docker start
 	sudo docker start $(CONTAINER_NAME)
 
 stop:

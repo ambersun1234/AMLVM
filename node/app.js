@@ -1,19 +1,58 @@
-const { say } = require('../pkg/ssvm_nodejs_starter_lib.js');
+const express = require("express");
+const fileUpload = require("express-fileupload");
+const { infer } = require("../pkg/ssvm_recognition.js");
 
-const http = require('http');
-const url = require('url');
-const hostname = '0.0.0.0';
-const port = 3000;
+const {
+  performance
+} = require("perf_hooks");
 
-const server = http.createServer((req, res) => {
-  const queryObject = url.parse(req.url,true).query;
-  if (!queryObject['name']) {
-    res.end(`Please use command curl http://${hostname}:${port}/?name=MyName \n`);
-  } else {
-    res.end(say(queryObject['name']) + '\n');
-  }
+const fs = require("fs");
+var data_model = fs.readFileSync("mobilenet_v2_1.4_224_frozen.pb");
+var labels = [];
+fs.readFileSync("imagenet_slim_labels.txt", "utf-8")
+  .split(/\r?\n/)
+  .forEach(function (line) {
+    labels.push(line);
+  });
+
+const app = express();
+const host = "0.0.0.0";
+const port = 8080;
+app.use(express.static(__dirname));
+app.use(fileUpload());
+
+app.get("/", (req, res) => res.redirect("/index.html"));
+
+app.post("/infer", function (req, res) {
+    if (!req.files || Object.keys(req.files).length === 0) {
+        return res.status(400).send("No files were uploaded.");
+    }
+
+    var datetime = new Date();
+    console.log("\n" + datetime);
+    console.log(
+        "Received " +
+        req.files.image_file.name +
+        " with size: " +
+        req.files.image_file.size
+    );
+
+    let image_file = req.files.image_file;
+
+    var t_start = performance.now();
+    var result = JSON.parse(infer(data_model, image_file.data, 224, 224));
+    var t_end = performance.now();
+    var datetime = new Date();
+    console.log(datetime);
+
+    res.send(
+        labels[result[1] - 1] +
+        "<br>confidence: " +
+        result[0] +
+        "<br>Recognize time: " + (t_end - t_start)
+    );
 });
 
-server.listen(port, hostname, () => {
-  console.log(`Server running at http://${hostname}:${port}/`);
-});
+app.listen(port, host, () =>
+    console.log(`ssvm_recognition at http://${host}:${port}\n`)
+);
