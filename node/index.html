@@ -22,7 +22,16 @@
             <h5>This is ambersun1234's web machine learning virtual machine</h6>
             <h6>(powered by <a href="https://github.com/second-state/ssvm-nodejs-starter">Second State Virtual Machine</a>)</h6>
 
-            <br><br><br>
+            <br>
+
+            <div class="row" style="margin: auto;">
+                <input id="hello_text" class="form-control" type="search" placeholder="Your name" style="width: 30%; margin: 0;">
+                <button id="hello_btn" class="btn btn-outline-success my-2 my-sm-0" type="button">Say Hello</button>
+            </div>
+            <br>
+            <p id="hello_response" class="text-info"></p>
+
+            <br><br>
             <h3>Here are the features you can use</h3>
             <ul>
                 <li>
@@ -48,4 +57,16 @@
 
 <script type="text/javascript">
     includeHTML();
+
+    $(document).ready(function() {
+        $("#hello_btn").click(function() {
+            $.get("/hello", {name: $("#hello_text").val()}, function(data) {
+
+            }).done(function(data) {
+                $("#hello_response").text(data);
+            }).fail(function(data) {
+                console.log(data);
+            });
+        });
+    });
 </script>

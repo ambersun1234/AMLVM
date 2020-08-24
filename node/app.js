@@ -1,6 +1,10 @@
 const express = require("express");
 const fileUpload = require("express-fileupload");
-const { infer } = require("../pkg/ssvm_recognition.js");
+
+// wasm
+const { wasm_infer } = require("../pkg/AMLVM.js");
+const { wasm_hello } = require("../pkg/AMLVM.js");
+
 const {
   performance
 } = require("perf_hooks");
@@ -13,7 +17,7 @@ fs.readFileSync("imagenet_slim_labels.txt", "utf-8")
   .split(/\r?\n/)
   .forEach(function (line) {
     labels.push(line);
-  });
+});
 
 const app = express();
 const host = "0.0.0.0";
@@ -28,7 +32,12 @@ app.get("/ml", (req, res) => res.redirect("/ml.html"));
 
 app.get("/hello", function(req, res) {
     const queryObject = url.parse(req.url,true).query;
-    res.send("hello, " + queryObject["name"]);
+
+    if (!queryObject['name']) {
+        res.end(`Please use command curl http://localhost:8080/hello?name=MyName \n`);
+    } else {
+        res.send(wasm_hello(queryObject["name"]));
+    }
 });
 
 app.post("/machine_learning/infer", function(req, res) {
@@ -48,7 +57,7 @@ app.post("/machine_learning/infer", function(req, res) {
     let image_file = req.files.image_file;
 
     var t_start = performance.now();
-    var result = JSON.parse(infer(data_model, image_file.data, 224, 224));
+    var result = JSON.parse(wasm_infer(data_model, image_file.data, 224, 224));
     var t_end = performance.now();
     var datetime = new Date();
     console.log(datetime);
