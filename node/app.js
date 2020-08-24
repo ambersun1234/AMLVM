@@ -1,12 +1,12 @@
 const express = require("express");
 const fileUpload = require("express-fileupload");
 const { infer } = require("../pkg/ssvm_recognition.js");
-
 const {
   performance
 } = require("perf_hooks");
-
+const url = require("url");
 const fs = require("fs");
+
 var data_model = fs.readFileSync("mobilenet_v2_1.4_224_frozen.pb");
 var labels = [];
 fs.readFileSync("imagenet_slim_labels.txt", "utf-8")
@@ -18,12 +18,20 @@ fs.readFileSync("imagenet_slim_labels.txt", "utf-8")
 const app = express();
 const host = "0.0.0.0";
 const port = 8080;
+
 app.use(express.static(__dirname));
 app.use(fileUpload());
 
 app.get("/", (req, res) => res.redirect("/index.html"));
 
-app.post("/infer", function (req, res) {
+app.get("/ml", (req, res) => res.redirect("/ml.html"));
+
+app.get("/hello", function(req, res) {
+    const queryObject = url.parse(req.url,true).query;
+    res.send("hello, " + queryObject["name"]);
+});
+
+app.post("/machine_learning/infer", function(req, res) {
     if (!req.files || Object.keys(req.files).length === 0) {
         return res.status(400).send("No files were uploaded.");
     }
