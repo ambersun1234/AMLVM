@@ -98,8 +98,8 @@ pub fn kmeans_lloyd_with_config<V: Value>(
     k: usize,
     config: &Config<V>,
 ) -> (Array2<V>, Vec<usize>) {
-    assert!(k > 1);
-    assert!(data.dim().0 >= k);
+    // assert!(k > 1);
+    // assert!(data.dim().0 >= k);
 
     let mut old_means = initialize_plusplus(data, k, config.random_seed);
     let mut clusters = calculate_clusters(data, &old_means.view());

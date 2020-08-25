@@ -31,8 +31,8 @@ pub fn initialize_plusplus<V: Value>(
     k: usize,
     seed: Option<u64>,
 ) -> Array2<V> {
-    assert!(k > 1);
-    assert!(data.dim().0 > 0);
+    // assert!(k > 1);
+    // assert!(data.dim().0 > 0);
     let mut means = Array2::zeros((k as usize, data.shape()[1]));
     let mut rng = match seed {
         Some(seed) => SmallRng::seed_from_u64(seed),

@@ -46,7 +46,22 @@ app.get("/hello", function(req, res) {
 app.post("/kc/draw", function (req, res) {
     console.log("Received /kc/draw request");
 
-    var svg = wasm_fit_draw(parseInt(req.body.points), parseInt(req.body.centers), 800, 400, 50, req.body.title);
+    var svg = wasm_fit_draw(
+        parseInt(req.body.points),
+        parseInt(req.body.centers),
+        // parseFloat(req.body.pxmi),
+        // parseFloat(req.body.pxma),
+        // parseFloat(req.body.pymi),
+        // parseFloat(req.body.pyma),
+        parseInt(req.body.pxmi),
+        parseInt(req.body.pxma),
+        parseInt(req.body.pymi),
+        parseInt(req.body.pyma),
+        800,
+        400,
+        50,
+        req.body.title
+    );
     res.send(svg)
 });
 

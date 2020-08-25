@@ -70,6 +70,11 @@
 
                 <br>
 
+                <input type="text" id="pxma" value="" disabled style="display: none;">
+                <input type="text" id="pxmi" value="" disabled style="display: none;">
+                <input type="text" id="pyma" value="" disabled style="display: none;">
+                <input type="text" id="pymi" value="" disabled style="display: none;">
+
                 <button type="submit" class="btn btn-outline-success my-2 my-sm-0" id="fitplot" onclick="setTimeout(function(){$('#fitplot').prop('disabled', true);$('#result_marquee').show();},1);return true;">Find centers and draw</button>
             </form>
 
@@ -114,6 +119,9 @@
             values: [pointMin, pointMax],
             slide: function(event, ui) {
                 $("#pointx_result").val("(" + ui.values[0] + ", " + ui.values[1] + ")");
+
+                $("#pymi").val($("#pointy_range").slider("values", 0));
+                $("#pyma").val($("#pointy_range").slider("values", 1));
             }
         });
         $("#pointx_result").val(
@@ -129,6 +137,9 @@
             values: [pointMin, pointMax],
             slide: function(event, ui) {
                 $("#pointy_result").val("(" + ui.values[0] + ", " + ui.values[1] + ")");
+
+                $("#pxmi").val($("#pointy_range").slider("values", 0));
+                $("#pxma").val($("#pointy_range").slider("values", 1));
             }
         });
         $("#pointy_result").val(

@@ -1,4 +1,3 @@
-use wasm_bindgen::prelude::*;
 use tract_tensorflow::prelude::*;
 use std::io::Cursor;
 
