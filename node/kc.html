@@ -18,32 +18,33 @@
         <div class="container">
             <div w3-include-html="header.html"></div>
 
-            <h1>Image Recognition - What's on the image?</h1>
+            <h1>K-means Clustering - Plot this!</h1>
+            <p class="lead">Find the centers for the data points and plot them.</p>
 
-            <form id="infer" enctype="multipart/form-data">
+            <form id="draw" enctype="multipart/form-data">
                 <div class="form-group">
-
-                    <label for="image_file">Please upload an image file</label>
-                    <input type="file" class="form-control-file" id="image_file" name="image_file" onchange="loadFile(event)" accept="image/jpeg, image/png">
+                    <label for="num">Number of centers</label>
+                    <input type="number" class="form-control" id="centers" name="num" value="3" placeholder="Please input number of centers">
                 </div>
 
-                <button type="submit" class="btn btn-outline-success my-2 my-sm-0" id="recognize" onclick="setTimeout(function(){
-                $('#result_marquee').show();
-                $('#recognize').prop('disabled', true);
-                $('#result').html('');
-                },0);return true;">Recognize</button>
+                <div class="form-group">
+                    <label for="num">Number of points</label>
+                    <input type="number" class="form-control" id="points" name="num" value="10" placeholder="Please input number of points">
+                </div>
+
+                <div class="form-group">
+                    <label for="title">Title</label>
+                    <input type="text" class="form-control" id="title" name="title" value="K-means" placeholder="Please input title of K-means Clustering result">
+                </div>
+
+                <button type="submit" class="btn btn-outline-success my-2 my-sm-0" id="fitplot" onclick="setTimeout(function(){$('#fitplot').prop('disabled', true);$('#result_marquee').show();},1);return true;">Find centers and draw</button>
             </form>
 
             <div class="jumbotron">
-                <div id="output" style="display: block; align: center;">
-                    <img id="u_img" style="display: block; margin-left: auto; margin-right: auto;"/>
-                </div>
-
                 <marquee id="result_marquee" behavior="scroll" direction="left">
                     Please wait. This could take 3 minutes...
                 </marquee>
-                <p id="result" class="lead">
-
+                <p id="svg_img" class="lead">
                 </p>
             </div>
 
@@ -58,19 +59,18 @@
     $(document).ready(function() {
         $("#result_marquee").hide();
 
-
         $(function() {
             var options = {
-                target: "#result",
-                url: "/ml/infer",
-                type: "post",
-                success: enableButton
+            target: "#svg_img",
+            url: "/draw",
+            type: "post",
+            success: enableButton
             };
-            $("#infer").ajaxForm(options);
+            $("#draw").ajaxForm(options);
         });
 
         function enableButton(responseText, statusText, xhr, $form)  {
-            $("#recognize").prop("disabled", false);
+            $("#fitplot").prop("disabled", false);
             $("#result_marquee").hide();
         }
 

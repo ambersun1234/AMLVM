@@ -30,6 +30,8 @@ app.get("/", (req, res) => res.redirect("/index.html"));
 
 app.get("/ml", (req, res) => res.redirect("/ml.html"));
 
+app.get("/kc", (req, res) => res.redirect("/kc.html"));
+
 app.get("/hello", function(req, res) {
     const queryObject = url.parse(req.url,true).query;
 
@@ -40,7 +42,7 @@ app.get("/hello", function(req, res) {
     }
 });
 
-app.post("/machine_learning/infer", function(req, res) {
+app.post("/ml/infer", function(req, res) {
     if (!req.files || Object.keys(req.files).length === 0) {
         return res.status(400).send("No files were uploaded.");
     }
@@ -71,5 +73,5 @@ app.post("/machine_learning/infer", function(req, res) {
 });
 
 app.listen(port, host, () =>
-    console.log(`ssvm_recognition at http://${host}:${port}\n`)
+    console.log(`AMLVM at http://${host}:${port}\n`)
 );
