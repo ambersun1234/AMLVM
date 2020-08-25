@@ -2,8 +2,9 @@ const express = require("express");
 const fileUpload = require("express-fileupload");
 
 // wasm
-const { wasm_infer } = require("../pkg/AMLVM.js");
-const { wasm_hello } = require("../pkg/AMLVM.js");
+const { wasm_infer }    = require("../pkg/AMLVM.js");
+const { wasm_hello }    = require("../pkg/AMLVM.js");
+const { wasm_fit_draw } = require("../pkg/AMLVM.js");
 
 const {
   performance
@@ -42,10 +43,19 @@ app.get("/hello", function(req, res) {
     }
 });
 
+app.post("/kc/draw", function (req, res) {
+    console.log("Received /kc/draw request");
+
+    var svg = wasm_fit_draw(parseInt(req.body.points), parseInt(req.body.centers), 800, 400, 50, req.body.title);
+    res.send(svg)
+});
+
 app.post("/ml/infer", function(req, res) {
     if (!req.files || Object.keys(req.files).length === 0) {
         return res.status(400).send("No files were uploaded.");
     }
+
+    console.log("Received /ml/infer request");
 
     var datetime = new Date();
     console.log("\n" + datetime);
