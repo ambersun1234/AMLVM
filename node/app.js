@@ -47,8 +47,8 @@ app.post("/kc/draw", function (req, res) {
     console.log("Received /kc/draw request");
 
     var svg = wasm_fit_draw(
-        parseInt(req.body.points),
-        parseInt(req.body.centers),
+        parseInt(req.body.points_num),
+        parseInt(req.body.centers_num),
         // parseFloat(req.body.pxmi),
         // parseFloat(req.body.pxma),
         // parseFloat(req.body.pymi),

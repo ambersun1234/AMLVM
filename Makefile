@@ -16,10 +16,6 @@ compile:
 	@$(MAKE) -f $(THIS_FILE) start
 	sudo docker exec -t $(CONTAINER_NAME) bash -c "cd $(MOUNT_FOLDER) && ssvmup build"
 
-run:
-	@$(MAKE) -f $(THIS_FILE) start
-	sudo docker exec -dt $(CONTAINER_NAME) bash -c "cd /app && node node/app.js"
-
 ps:
 	sudo docker ps -a
 

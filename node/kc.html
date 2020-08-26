@@ -38,14 +38,14 @@
 
                 <div class="form-group">
                     <label for="num">Number of centers</label>
-                    <input type="number" class="form-control" id="centers" name="num" value="3" placeholder="Please input number of centers">
+                    <input type="number" class="form-control" id="centers" name="centers_num" value="10" placeholder="Please input number of centers">
                 </div>
 
                 <br>
 
                 <div class="form-group">
-                    <label for="num">Number of points</label>
-                    <input type="number" class="form-control" id="points" name="num" value="10" placeholder="Please input number of points">
+                    <label for="num">Number of points(Random generated value by the following range)</label>
+                    <input type="number" class="form-control" id="points" name="points_num" value="100" placeholder="Please input number of points">
                 </div>
 
                 <div class="form-group">
@@ -70,17 +70,17 @@
 
                 <br>
 
-                <input type="text" id="pxma" value="" disabled style="display: none;">
-                <input type="text" id="pxmi" value="" disabled style="display: none;">
-                <input type="text" id="pyma" value="" disabled style="display: none;">
-                <input type="text" id="pymi" value="" disabled style="display: none;">
+                <input type="number" id="pxma" name="pxma" value="0" style="display: none;">
+                <input type="number" id="pxmi" name="pxmi" value="0" style="display: none;">
+                <input type="number" id="pyma" name="pyma" value="0" style="display: none;">
+                <input type="number" id="pymi" name="pymi" value="0" style="display: none;">
 
                 <button type="submit" class="btn btn-outline-success my-2 my-sm-0" id="fitplot" onclick="setTimeout(function(){$('#fitplot').prop('disabled', true);$('#result_marquee').show();},1);return true;">Find centers and draw</button>
             </form>
 
             <div class="jumbotron">
                 <marquee id="result_marquee" behavior="scroll" direction="left">
-                    Please wait. This could take 3 minutes...
+                    Please wait. This could take a while...
                 </marquee>
                 <p id="svg_img" class="lead">
                 </p>
@@ -93,10 +93,15 @@
 
 <script>
     $(document).ready(function() {
-        pointMin   = 0;
-        pointMax   = 100;
-        pointMin_s = -500;
-        pointMax_s = 500;
+        var pointMin   = 200;
+        var pointMax   = 250;
+        var pointMin_s = 0;
+        var pointMax_s = 500;
+
+        document.getElementById("pxmi").setAttribute("value", pointMin);
+        document.getElementById("pxma").setAttribute("value", pointMax);
+        document.getElementById("pymi").setAttribute("value", pointMin);
+        document.getElementById("pyma").setAttribute("value", pointMax);
 
         includeHTML();
 
@@ -120,8 +125,12 @@
             slide: function(event, ui) {
                 $("#pointx_result").val("(" + ui.values[0] + ", " + ui.values[1] + ")");
 
-                $("#pymi").val($("#pointy_range").slider("values", 0));
-                $("#pyma").val($("#pointy_range").slider("values", 1));
+                document.getElementById("pxmi").setAttribute("value",
+                    $("#pointx_range").slider("values", 0)
+                );
+                document.getElementById("pxma").setAttribute("value",
+                    $("#pointx_range").slider("values", 1)
+                );
             }
         });
         $("#pointx_result").val(
@@ -138,8 +147,12 @@
             slide: function(event, ui) {
                 $("#pointy_result").val("(" + ui.values[0] + ", " + ui.values[1] + ")");
 
-                $("#pxmi").val($("#pointy_range").slider("values", 0));
-                $("#pxma").val($("#pointy_range").slider("values", 1));
+                document.getElementById("pymi").setAttribute("value",
+                    $("#pointy_range").slider("values", 0)
+                );
+                document.getElementById("pyma").setAttribute("value",
+                    $("#pointy_range").slider("values", 1)
+                );
             }
         });
         $("#pointy_result").val(

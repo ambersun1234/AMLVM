@@ -119,7 +119,6 @@ pub fn fit_draw(
 
     let data2 = data.clone();
     let center_arr: Vec<f64> = fit(data2, num_clusters);
-    println!("{:?}", center_arr);
 
     for i in 0..center_arr.len() {
         if (i % 2) == 1 {
@@ -201,7 +200,6 @@ fn read_data(
         data.push(rng.gen_range(pxmi, pxma));
         data.push(rng.gen_range(pymi, pyma));
     }
-    println!("{:?}", data);
 }
 
 pub fn fit(data: Vec<f64>, num_clusters: usize) -> Vec<f64> {
