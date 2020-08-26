@@ -34,6 +34,8 @@ app.get("/ml", (req, res) => res.redirect("/ml.html"));
 app.get("/kc", (req, res) => res.redirect("/kc.html"));
 
 app.get("/hello", function(req, res) {
+    console.log("Received /hello request");
+
     const queryObject = url.parse(req.url,true).query;
 
     if (!queryObject['name']) {
@@ -66,6 +68,8 @@ app.post("/kc/draw", function (req, res) {
 });
 
 app.post("/ml/infer", function(req, res) {
+    console.log("Received /ml/infer request");
+
     if (!req.files || Object.keys(req.files).length === 0) {
         return res.status(400).send("No files were uploaded.");
     }
