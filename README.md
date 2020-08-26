@@ -4,7 +4,7 @@
 Simple machine learning virtual machine
 
 ## Getting started
-[Fork this project](https://github.com/second-state/ssvm-nodejs-starter/fork) to create your own Rust functions in Node.js. [Learn more](https://www.secondstate.io/articles/getting-started-rust-nodejs-vscode/)
+[Fork origin SSVM project](https://github.com/second-state/ssvm-nodejs-starter/fork) to create your own Rust functions in Node.js. [Learn more](https://www.secondstate.io/articles/getting-started-rust-nodejs-vscode/)
 
 * The Rust functions are in the `src` directory. You can put high performance workload into Rust functions.
 * The JavaScript functions are in the `node` directory and they can access the Rust functions.
@@ -17,20 +17,11 @@ $ docker pull secondstate/ssvm-nodejs-starter:v1
 # compile
 $ make compile
 # run node.js
-$ make run
+$ make in
+$ (docker) cd /app/node && node app.js
 # stop server
 $ make kill
 ```
-
-### More exercises
-Now, you can copy and paste code from [this project](https://github.com/second-state/wasm-learning/tree/master/nodejs/functions).
-* `src/lib.rs` --> Replace with [code here](https://github.com/second-state/wasm-learning/blob/master/nodejs/functions/src/lib.rs)
-* `Cargo.toml` --> Replace with [code here](https://github.com/second-state/wasm-learning/blob/master/nodejs/functions/Cargo.toml)
-* `node/app.js` --> Replace with [code here](https://github.com/second-state/wasm-learning/blob/master/nodejs/functions/node/app.js)
-
-Click on Run to see the build output in Terminal window, and application console output in Debug window.
-
-Try to log into GitHub from the IDE, and use the IDE's GitHub integration features to commit the changes, push the changes back into your forked repository, and perhaps even send us a Pull Request from the IDE!
 
 ## Read more:
 * [The Case for WebAssembly on the Server-side](https://www.secondstate.io/articles/why-webassembly-server/)
